@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import bgDark from '../assets/bg-dark.png';
-import bgLight from '../assets/bg-light.png';
+
 
 const Hero = () => {
   const [typedText, setTypedText] = useState('');
