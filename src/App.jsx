@@ -7,6 +7,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetail from './components/ProjectDetail';
 
+
 const App = () => {
   const [theme, setTheme] = useState(
     localStorage.getItem('theme') || 'dark'
@@ -60,18 +61,23 @@ const App = () => {
   return (
     <div className="min-h-screen relative transition-colors duration-500 font-display">
       {/* Fixed Background Images */}
-      <div className="fixed inset-0 z-0">
-        <div 
-          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${theme === 'dark' ? 'opacity-100' : 'opacity-0'}`}
-          style={{ backgroundImage: `url('/src/assets/bg-dark.png')` }}
-        />
-        <div 
-          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${theme === 'light' ? 'opacity-100' : 'opacity-0'}`}
-          style={{ backgroundImage: `url('/src/assets/bg-light.png')` }}
-        />
-        {/* Subtle overlay for readability */}
-        <div className={`absolute inset-0 transition-colors duration-1000 ${theme === 'dark' ? 'bg-black/20' : 'bg-white/10'}`}></div>
-      </div>
+   <div className="fixed inset-0 z-0">
+  <div
+    className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+      theme === 'dark' ? 'opacity-100' : 'opacity-0'
+    }`}
+    style={{ backgroundImage: "url('/bg-dark.png')" }}
+  />
+
+  <div
+    className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+      theme === 'light' ? 'opacity-100' : 'opacity-0'
+    }`}
+    style={{ backgroundImage: "url('/bg-light.png')" }}
+  />
+
+  <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-black/20' : 'bg-white/10'}`} />
+</div>
 
       {/* Main Content Overlay */}
       <div className={`relative z-10 flex flex-col ${selectedProject ? 'h-screen overflow-hidden' : ''}`}>
