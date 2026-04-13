@@ -1,0 +1,105 @@
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import About from './components/About';
+import Projects from './components/Projects';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import ProjectDetail from './components/ProjectDetail';
+
+const App = () => {
+  const [theme, setTheme] = useState(
+    localStorage.getItem('theme') || 'dark'
+  );
+  const [activeSection, setActiveSection] = useState('home');
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Active section and scroll progress detection
+  useEffect(() => {
+    const handleScroll = () => {
+      // Don't update scroll progress if viewing details
+      if (selectedProject) return;
+
+      // Calculate active section
+      const sections = ['home', 'about-me', 'works', 'contact'];
+      const scrollPos = window.scrollY + 200;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element && scrollPos >= element.offsetTop && scrollPos < element.offsetTop + element.offsetHeight) {
+          setActiveSection(section);
+          break;
+        }
+      }
+
+      // Calculate total scroll progress
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      setScrollProgress(scrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [selectedProject]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  return (
+    <div className="min-h-screen relative transition-colors duration-500 font-display">
+      {/* Fixed Background Images */}
+      <div className="fixed inset-0 z-0">
+        <div 
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${theme === 'dark' ? 'opacity-100' : 'opacity-0'}`}
+          style={{ backgroundImage: `url('/src/assets/bg-dark.png')` }}
+        />
+        <div 
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${theme === 'light' ? 'opacity-100' : 'opacity-0'}`}
+          style={{ backgroundImage: `url('/src/assets/bg-light.png')` }}
+        />
+        {/* Subtle overlay for readability */}
+        <div className={`absolute inset-0 transition-colors duration-1000 ${theme === 'dark' ? 'bg-black/20' : 'bg-white/10'}`}></div>
+      </div>
+
+      {/* Main Content Overlay */}
+      <div className={`relative z-10 flex flex-col ${selectedProject ? 'h-screen overflow-hidden' : ''}`}>
+        {!selectedProject && (
+          <>
+            <Navbar theme={theme} toggleTheme={toggleTheme} activeSection={activeSection} />
+            
+            <section id="home" className="h-screen w-full px-10 md:px-32">
+              <Hero />
+            </section>
+
+            <About />
+            <Projects onViewDetails={setSelectedProject} />
+            <Contact />
+
+            <Footer activeSection={activeSection} scrollProgress={scrollProgress} />
+          </>
+        )}
+
+        {selectedProject && (
+          <ProjectDetail 
+            project={selectedProject} 
+            onBack={() => setSelectedProject(null)} 
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default App;
