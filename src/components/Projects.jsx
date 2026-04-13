@@ -154,7 +154,7 @@ const Projects = ({ onViewDetails }) => {
       {
         title: 'VERDANT',
         category: 'Code (React)',
-        url: 'https://smriti-paudel.onrender.com/',
+        url: 'https://verdantplant.onrender.com/',
         image: verdantFrontImg,
         detailImage: verdantImg,
         details: "Verdant was born during one of the most exciting phases of my learning journey — mastering React. The idea was simple: build something real, something beautiful, and learn by doing. I chose a plant-selling concept because nature and greenery felt like the perfect subject for an earthy, premium UI. The website features a curated product showcase, an interactive hero section, and a clean, responsive layout built from scratch with React components and Tailwind CSS. Every hover effect, every layout decision, every color choice was a deliberate experiment in understanding how modern interfaces behave. While Verdant is live and fully functional online, it is a portfolio-grade practice project — the shelves are beautifully stocked, but no plants are being shipped just yet. It stands as a testament to how far I've grown as a developer: from writing my first JSX to deploying a production-ready website with real design sensibility."
