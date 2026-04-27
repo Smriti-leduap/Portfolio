@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 
-const Hero = () => {
+const Hero = ({ onLoadingStart }) => {
   const [typedText, setTypedText] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -11,6 +11,13 @@ const Hero = () => {
   const typingSpeed = 120;
   const deletingSpeed = 80;
   const pauseTime = 6000;
+
+  const handleRoleClick = () => {
+    if (onLoadingStart) onLoadingStart();
+    setTypedText('');
+    setIsDeleting(true);
+    setRoleIndex((prev) => (prev + 1) % roles.length);
+  };
 
   // Detect theme
   useEffect(() => {
@@ -70,7 +77,11 @@ const Hero = () => {
         <div className="max-w-xl space-y-8">
           <p className="text-base md:text-lg font-medium dark:text-white text-indigo-950/70 leading-relaxed font-display min-h-[120px]">
             I am Smriti Paudel, a{" "}
-            <span className="dark:text-yellow-400 text-indigo-950 font-black border-r-4 border-black dark:border-yellow-400 pr-2 animate-pulse">
+            <span 
+              onClick={handleRoleClick}
+              className="dark:text-yellow-400 text-indigo-950 font-black border-r-4 border-black dark:border-yellow-400 pr-2 animate-pulse cursor-pointer hover:opacity-80 transition-opacity"
+              title="Click to switch role"
+            >
               {typedText}
             </span>.
             {roleIndex === 0

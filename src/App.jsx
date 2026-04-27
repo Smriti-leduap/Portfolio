@@ -6,6 +6,7 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetail from './components/ProjectDetail';
+import Loader from './components/Loader';
 
 
 const App = () => {
@@ -15,6 +16,16 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Show loader on page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -58,8 +69,17 @@ const App = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  const handleLoadingStart = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+  };
+
   return (
     <div className="min-h-screen relative transition-colors duration-500 font-display">
+      <Loader isVisible={isLoading} />
+      
       {/* Fixed Background Images */}
    <div className="fixed inset-0 z-0">
   <div
@@ -86,11 +106,11 @@ const App = () => {
             <Navbar theme={theme} toggleTheme={toggleTheme} activeSection={activeSection} />
             
             <section id="home" className="h-screen w-full px-10 md:px-32">
-              <Hero />
+              <Hero onLoadingStart={handleLoadingStart} />
             </section>
 
             <About />
-            <Projects onViewDetails={setSelectedProject} />
+            <Projects onViewDetails={setSelectedProject} onLoadingStart={handleLoadingStart} />
             <Contact />
 
             <Footer activeSection={activeSection} scrollProgress={scrollProgress} />

@@ -79,9 +79,22 @@ const ProjectCard = ({ title, titleLines, category, url, image, detailImage, det
   );
 };
 
-const Projects = ({ onViewDetails }) => {
+const Projects = ({ onViewDetails, onLoadingStart }) => {
   const [activeTab, setActiveTab] = useState('designer');
   const [activeCategory, setActiveCategory] = useState('UI/UX');
+
+  const handleTabChange = (tab) => {
+    if (onLoadingStart) onLoadingStart();
+    setActiveTab(tab);
+    if (tab === 'designer') {
+      setActiveCategory('UI/UX');
+    }
+  };
+
+  const handleCategoryChange = (cat) => {
+    if (onLoadingStart) onLoadingStart();
+    setActiveCategory(cat);
+  };
 
   const designerCategories = ['UI/UX', 'Branding', 'Packaging', 'Poster','Illustration'];
 
@@ -177,13 +190,13 @@ const Projects = ({ onViewDetails }) => {
             </h3>
             <div className="flex items-center gap-8">
               <button
-                onClick={() => { setActiveTab('designer'); setActiveCategory('UI/UX'); }}
+                onClick={() => handleTabChange('designer')}
                 className={`text-5xl md:text-6xl font-black tracking-widest leading-none transition-all ${activeTab === 'designer' ? 'dark:text-white text-indigo-950' : 'dark:text-white/20 text-indigo-950/20 hover:dark:text-white/40 hover:text-indigo-950/40'}`}
               >
                 DESIGNER
               </button>
               <button
-                onClick={() => { setActiveTab('coder'); }}
+                onClick={() => handleTabChange('coder')}
                 className={`text-5xl md:text-6xl font-black tracking-widest leading-none transition-all ${activeTab === 'coder' ? 'dark:text-white text-indigo-950' : 'dark:text-white/20 text-indigo-950/20 hover:dark:text-white/40 hover:text-indigo-950/40'}`}
               >
                 CODER
@@ -198,7 +211,7 @@ const Projects = ({ onViewDetails }) => {
             {designerCategories.map(cat => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleCategoryChange(cat)}
                 className={`text-xs font-black tracking-[0.3em] uppercase pb-2 border-b-2 transition-all ${activeCategory === cat ? 'dark:text-yellow-400 dark:border-yellow-400 text-indigo-950 border-indigo-950' : 'dark:text-white/40 text-indigo-950/40 border-transparent hover:dark:text-white hover:text-indigo-950'}`}
               >
                 {cat}

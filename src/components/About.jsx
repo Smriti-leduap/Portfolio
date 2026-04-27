@@ -22,7 +22,7 @@ const About = () => {
             <div>
               <h4 className="dark:text-white text-indigo-950 font-bold mb-6 tracking-widest text-sm uppercase">Design Skills</h4>
               <div className="flex flex-wrap gap-4">
-                {['Figma', 'Adobe Illustrator', 'Photoshop', 'CorelDraw'].map(skill => (
+                {['Figma', 'Adobe Illustrator', 'Photoshop'].map(skill => (
                   <span key={skill} className="px-4 py-2 bg-indigo-950/5 dark:bg-white/10 border border-indigo-950/10 dark:border-white/20 rounded-full dark:text-white text-indigo-950 text-xs tracking-widest hover:bg-indigo-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-default">
                     {skill}
                   </span>
