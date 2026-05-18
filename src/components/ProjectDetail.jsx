@@ -5,7 +5,6 @@ const ProjectDetail = ({ project, onBack }) => {
 
   const handleBack = () => {
     onBack();
-    // After state resets and DOM re-renders, scroll to works section
     setTimeout(() => {
       const worksSection = document.getElementById('works');
       if (worksSection) {
@@ -17,7 +16,6 @@ const ProjectDetail = ({ project, onBack }) => {
   return (
     <div className="fixed inset-0 z-[100] bg-white dark:bg-zinc-950 overflow-y-auto animate-[fadeIn_0.5s_ease-out]">
       <div className="max-w-6xl mx-auto px-8 md:px-20 py-24">
-        {/* Navigation */}
         <button
           onClick={handleBack}
           className="flex items-center gap-4 text-xs font-black tracking-widest uppercase mb-16 group dark:text-white text-indigo-950"
@@ -27,7 +25,6 @@ const ProjectDetail = ({ project, onBack }) => {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-          {/* Visuals */}
           <div className="space-y-12">
             <div className="rounded-3xl overflow-hidden bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 shadow-2xl">
               <img src={project.detailImage || project.image} alt={project.title} className="w-full h-auto" />
@@ -42,7 +39,6 @@ const ProjectDetail = ({ project, onBack }) => {
             </div>
           </div>
 
-          {/* Context */}
           <div className="sticky top-24 space-y-12">
             <div>
               <p className="text-xs font-black tracking-[0.4em] uppercase text-yellow-500 mb-6">{project.category}</p>
@@ -87,7 +83,6 @@ const ProjectDetail = ({ project, onBack }) => {
           </div>
         </div>
 
-        {/* Next/Prev simple placeholder */}
         <div className="mt-32 pt-24 border-t border-black/10 dark:border-white/10 flex justify-between items-center text-xs font-black tracking-[0.3em] uppercase dark:text-white/20 text-indigo-950/20 italic">
           <span>SMRITI PORTFOLIO</span>
           <span>DESIGNED IN SPACE</span>

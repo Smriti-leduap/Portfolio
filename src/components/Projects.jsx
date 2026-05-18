@@ -52,7 +52,6 @@ const ProjectCard = ({ title, titleLines, category, url, image, detailImage, det
           </div>
         )}
 
-        {/* Overlay with two buttons */}
         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4">
           <button
             onClick={() => onViewDetails({ title, titleLines, category, image, detailImage, details, url, additionalImages })}
@@ -205,7 +204,6 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
           </div>
         </div>
 
-        {/* Sub-categories for Designer */}
         {activeTab === 'designer' && (
           <div className="flex flex-wrap gap-6 mb-12 animate-[fadeIn_0.5s_ease-out]">
             {designerCategories.map(cat => (

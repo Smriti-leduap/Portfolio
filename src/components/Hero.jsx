@@ -19,7 +19,7 @@ const Hero = ({ onLoadingStart }) => {
     setRoleIndex((prev) => (prev + 1) % roles.length);
   };
 
-  // Detect theme
+  
   useEffect(() => {
     const root = document.documentElement;
     const updateTheme = () => setIsDarkTheme(root.classList.contains('dark'));
@@ -31,7 +31,7 @@ const Hero = ({ onLoadingStart }) => {
     return () => observer.disconnect();
   }, []);
 
-  // Typing effect
+ 
   useEffect(() => {
     let timer;
     const currentRole = roles[roleIndex];
@@ -64,7 +64,6 @@ const Hero = ({ onLoadingStart }) => {
       
 
      
-      {/* Content */}
       <div className="relative z-10 animate-[fadeIn_1s_ease-out] px-6 md:px-10">
         <p className="text-sm md:text-base font-black tracking-[0.3em] dark:text-white/90 text-indigo-950 uppercase mb-1">
           HI, I'M

@@ -18,7 +18,6 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Show loader on page load
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -36,13 +35,10 @@ const App = () => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Active section and scroll progress detection
   useEffect(() => {
     const handleScroll = () => {
-      // Don't update scroll progress if viewing details
       if (selectedProject) return;
 
-      // Calculate active section
       const sections = ['home', 'about-me', 'works', 'contact'];
       const scrollPos = window.scrollY + 200;
 
@@ -54,7 +50,6 @@ const App = () => {
         }
       }
 
-      // Calculate total scroll progress
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
@@ -80,7 +75,6 @@ const App = () => {
     <div className="min-h-screen relative transition-colors duration-500 font-display">
       <Loader isVisible={isLoading} />
       
-      {/* Fixed Background Images */}
    <div className="fixed inset-0 z-0">
   <div
     className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
@@ -99,7 +93,6 @@ const App = () => {
   <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-black/20' : 'bg-white/10'}`} />
 </div>
 
-      {/* Main Content Overlay */}
       <div className={`relative z-10 flex flex-col ${selectedProject ? 'h-screen overflow-hidden' : ''}`}>
         {!selectedProject && (
           <>

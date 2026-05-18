@@ -10,7 +10,6 @@ const Navbar = ({ theme, toggleTheme, activeSection }) => {
 
   return (
     <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-10 py-8 z-50">
-      {/* Centered Links */}
       <div className="flex-1 flex justify-center">
         <ul className="flex space-x-12">
           {links.map((link) => (
@@ -30,7 +29,6 @@ const Navbar = ({ theme, toggleTheme, activeSection }) => {
         </ul>
       </div>
 
-      {/* Theme Toggle */}
       <div className="flex-0 flex justify-end">
         <button 
           onClick={toggleTheme}

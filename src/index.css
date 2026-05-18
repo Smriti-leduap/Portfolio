@@ -23,7 +23,6 @@
     @apply font-display antialiased transition-colors duration-300 overflow-x-hidden;
   }
 
-  /* Global text readability */
   .dark {
     color-scheme: dark;
   }
