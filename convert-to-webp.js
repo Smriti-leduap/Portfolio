@@ -29,8 +29,7 @@ async function convertToWebP(inputPath, outputPath) {
 
 async function main() {
   const assetsDir = path.join(__dirname, 'src', 'assets');
-  
-  
+
   const trinathPath = path.join(assetsDir, 'trinath.png');
   const trinathWebP = path.join(assetsDir, 'trinath.webp');
   
