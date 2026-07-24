@@ -9,10 +9,14 @@ import mountainImg3 from '../assets/mountain-3.png';
 import nepsorImg from '../assets/nepsor.png';
 import nepsorImg2 from '../assets/nepsor-2.png';
 import nepsorImg3 from '../assets/nepsor-3.png';
-const trinathImg = '/assets/trinath.webp';
-const trinathFrontImg = '/assets/trinathfront.webp';
+import trinathImg from '../assets/trinath.webp';
+import trinathFrontImg from '../assets/trinathfront.webp';
 import verdantImg from '../assets/verdant.png';
 import verdantFrontImg from '../assets/verdant1.png';
+import dealscoutFrontImg from '../assets/dealscout.png';
+import dealscoutImg2 from '../assets/dealscout2.png';
+import dealscoutImg3 from '../assets/dealscout3.png';
+
 import nepsorSocialMediaImg from '../assets/poster.png';
 import nepsorSocialMediaImg1 from '../assets/poster1.png';
 import nepsorSocialMediaImg2 from '../assets/poster2.png';
@@ -171,15 +175,14 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         detailImage: verdantImg,
         details: "Verdant was born during one of the most exciting phases of my learning journey — mastering React. The idea was simple: build something real, something beautiful, and learn by doing. I chose a plant-selling concept because nature and greenery felt like the perfect subject for an earthy, premium UI. The website features a curated product showcase, an interactive hero section, and a clean, responsive layout built from scratch with React components and Tailwind CSS. Every hover effect, every layout decision, every color choice was a deliberate experiment in understanding how modern interfaces behave. While Verdant is live and fully functional online, it is a portfolio-grade practice project — the shelves are beautifully stocked, but no plants are being shipped just yet. It stands as a testament to how far I've grown as a developer: from writing my first JSX to deploying a production-ready website with real design sensibility."
       },
-      { title: 'DEALSCOUT', 
-        category: 'Code (Core PHP, SQLite, and Tailwind CSS)', 
-        url: '#',
-        image: dealscout,
-        additionalImages: [dealscout2, dealscout3],
-        details: ["DealScout is a web-based nearby price comparison platform developed for my B.Sc. CSIT final year project. It allows users to search for products, compare prices across local stores, view store locations on interactive maps, and find the best deals by factoring in both product price and travel cost.",
-           "Built with Core PHP, SQLite, and Tailwind CSS, the platform features role-based access for customers, store owners, and administrators, along with robust security measures including CSRF protection, BCRYPT hashing, and prepared statements. The project successfully achieved all eight objectives and demonstrates the practical application of location-based services in retail price comparison."]
-       },
-    ]
+      {
+        title: 'DEALSCOUT',
+        category: 'Code (React)',
+        image: dealscoutFrontImg,
+        additionalImages: [dealscoutImg2, dealscoutImg3],
+        details: "DealScout is an e-commerce interface focusing on exclusive deals and product curation, built with modern web practices."
+      },
+    ],
   };
 
   const filteredProjects = activeTab === 'designer'
