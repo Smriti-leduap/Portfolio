@@ -171,7 +171,14 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         detailImage: verdantImg,
         details: "Verdant was born during one of the most exciting phases of my learning journey — mastering React. The idea was simple: build something real, something beautiful, and learn by doing. I chose a plant-selling concept because nature and greenery felt like the perfect subject for an earthy, premium UI. The website features a curated product showcase, an interactive hero section, and a clean, responsive layout built from scratch with React components and Tailwind CSS. Every hover effect, every layout decision, every color choice was a deliberate experiment in understanding how modern interfaces behave. While Verdant is live and fully functional online, it is a portfolio-grade practice project — the shelves are beautifully stocked, but no plants are being shipped just yet. It stands as a testament to how far I've grown as a developer: from writing my first JSX to deploying a production-ready website with real design sensibility."
       },
-      { title: 'DEALSCOUT', category: 'Web App', url: '#', details: "Coming soon." },
+      { title: 'DEALSCOUT', 
+        category: 'Code (Core PHP, SQLite, and Tailwind CSS)', 
+        url: '#',
+        image: dealscout,
+        additionalImages: [dealscout2, dealscout3],
+        details: ["DealScout is a web-based nearby price comparison platform developed for my B.Sc. CSIT final year project. It allows users to search for products, compare prices across local stores, view store locations on interactive maps, and find the best deals by factoring in both product price and travel cost.",
+           "Built with Core PHP, SQLite, and Tailwind CSS, the platform features role-based access for customers, store owners, and administrators, along with robust security measures including CSRF protection, BCRYPT hashing, and prepared statements. The project successfully achieved all eight objectives and demonstrates the practical application of location-based services in retail price comparison."]
+       },
     ]
   };
 
