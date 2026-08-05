@@ -180,11 +180,12 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         category: 'Code (Core PHP, SQLite, and Tailwind CSS)',
         image: dealscoutFrontImg,
         additionalImages: [dealscoutImg2, dealscoutImg3],
-        details: ["DealScout is a web-based price comparison platform developed for my B.Sc. CSIT final year project. The system allows users to search products, compare prices from nearby stores, view store locations on an interactive map, and find the best deal by considering both product price and travel cost.",
+        details: ["DealScout is a web-based price comparison platform developed for my B.Sc. CSIT final year project. The system allows users to search products, compare prices from nearby stores, view store locations on an interactive map, and find the best deal by considering both product price and route cost.",
         "Built with Core PHP, SQLite, and Tailwind CSS, the platform features role-based access for customers, store owners, and administrators, along with comprehensive security measures. The project successfully achieved all eight objectives and demonstrates practical application of software engineering in solving local retail price transparency challenges."]
       },
     ],
   };
+
 
   const filteredProjects = activeTab === 'designer'
     ? projects.designer.filter(p => p.category === activeCategory)
