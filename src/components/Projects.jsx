@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import ezImg from '../assets/ez-crossword.png';
 import ezImg2 from '../assets/ez-2.png';
 import ezImg3 from '../assets/ez-3.png';
@@ -44,12 +44,21 @@ import ascolHackfestImg8 from '../assets/ascol8.jpg';
 
 
 
-const ProjectCard = ({ title, titleLines, category, url, image, detailImage, details, additionalImages, onViewDetails }) => {
+const ProjectCard = React.memo(({ title, titleLines, category, url, image, detailImage, details, additionalImages, onViewDetails }) => {
+  const showProjectLink = Boolean(url) && title !== 'DEALSCOUT';
+
   return (
     <div className="group relative overflow-hidden rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-all duration-500">
       <div className="aspect-[4/3] w-full bg-black/5 dark:bg-white/10 overflow-hidden relative">
         {image ? (
-          <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+          <img
+            src={image}
+            alt={title}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center dark:text-white/20 text-indigo-950/20 italic group-hover:scale-110 transition-transform duration-700">
             [{title} Image]
@@ -63,14 +72,16 @@ const ProjectCard = ({ title, titleLines, category, url, image, detailImage, det
           >
             View Details
           </button>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-40 py-3 rounded-full border border-white/40 text-white text-[10px] font-black tracking-widest uppercase hover:bg-white/10 transition-colors flex items-center justify-center"
-          >
-            View Project
-          </a>
+          {showProjectLink && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-40 py-3 rounded-full border border-white/40 text-white text-[10px] font-black tracking-widest uppercase hover:bg-white/10 transition-colors flex items-center justify-center"
+            >
+              View Project
+            </a>
+          )}
         </div>
       </div>
 
@@ -80,28 +91,9 @@ const ProjectCard = ({ title, titleLines, category, url, image, detailImage, det
       </div>
     </div>
   );
-};
+});
 
-const Projects = ({ onViewDetails, onLoadingStart }) => {
-  const [activeTab, setActiveTab] = useState('designer');
-  const [activeCategory, setActiveCategory] = useState('UI/UX');
-
-  const handleTabChange = (tab) => {
-    if (onLoadingStart) onLoadingStart();
-    setActiveTab(tab);
-    if (tab === 'designer') {
-      setActiveCategory('UI/UX');
-    }
-  };
-
-  const handleCategoryChange = (cat) => {
-    if (onLoadingStart) onLoadingStart();
-    setActiveCategory(cat);
-  };
-
-  const designerCategories = ['UI/UX', 'Branding', 'Packaging', 'Poster','Illustration'];
-
-  const projects = {
+const projects = {
     designer: [
       {
         title: 'EZ CROSSWORD',
@@ -109,7 +101,14 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         url: 'https://ez-crossword.vercel.app/',
         image: ezImg,
         additionalImages: [ezImg2, ezImg3],
-        details: "The idea for EZ Crossword came from the frustration of complex game interfaces. I wanted to create a minimalist, accessible crossword solver and generator that focused purely on the user experience. The design process involved simplifying the grid interaction and using a soothing lavender palette to reduce eye strain during long gaming sessions. I focused on responsive layout so users could enjoy it across all devices seamlessly."
+        details: [
+          "Problem: The user needed a crossword experience that felt quick, calm, and easy to navigate without visual clutter or unnecessary friction.",
+          "Research → Insight: I learned that players care more about readability and speed than decorative complexity. When the interface is too busy, it interrupts focus and makes a simple game feel tiring.",
+          "Decision: I chose a minimal grid, large tap targets, and a soft lavender palette because the experience needed to feel gentle and easy on the eyes. Based on the need for quick scanning, I also reduced extra UI and kept the most important actions close to the board.",
+          "Iteration: Before, the layout felt crowded and distracting. After testing, I learned that players wanted less noise and more clarity. I simplified the hierarchy, widened spacing, and focused attention on the puzzle itself.",
+          "Final Solution: The final design keeps the crossword at the center, with clean typography and a calm visual system that supports long sessions without fatigue.",
+          "Outcome / Learning: The result is a more focused and accessible experience. I learned that a strong UX for games often comes from restraint: removing friction makes the product feel more enjoyable, not less sophisticated."
+        ]
       },
       {
         title: 'NEPAL MOUNTAIN ASSISTANCE',
@@ -118,7 +117,14 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         image: mountainImg,
         detailImage: mountainFullImg,
         additionalImages: [mountainImg2, mountainImg3],
-        details: "This project was designed for a high-performance trekking agency. The challenge was to balance breathtaking mountain photography with critical booking and service information. I used a premium dark aesthetic with orange accents to convey trust and energy. The design process focused on building a clear hierarchy of information, ensuring that safety details and rescue services were easily accessible while maintaining the scale and beauty of the Himalayas in every frame."
+        details: [
+          "Problem: The audience needed to trust the service quickly, especially when they were planning high-risk trekking trips and rescue support.",
+          "Research → Insight: I learned that people scanning a trekking service want confidence, clarity, and safety information before they look at anything else. Visual luxury alone was not enough; the information had to feel reliable.",
+          "Decision: I chose a premium dark palette with orange accents because it communicated urgency and trust without feeling chaotic. Based on the need for quick decision-making, I created a clear hierarchy so safety details and booking actions appeared before decorative content.",
+          "Iteration: Before, the site risked feeling visually impressive but harder to navigate. After reviewing the information flow, I learned that users needed the most critical details to appear immediately. I tightened the layout and pushed important service information higher in the page.",
+          "Final Solution: The final design combines strong imagery with clear information architecture, making the trip feel exciting while still reassuring users that the company is credible and prepared.",
+          "Outcome / Learning: The project reinforced that premium design works best when it supports trust, not just aesthetics. I learned that for high-stakes decisions, clarity is a bigger design priority than visual complexity."
+        ]
       },
       {
         title: 'NEPSOR',
@@ -126,7 +132,14 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         url: 'https://nepsor.com/',
         image: nepsorImg,
         additionalImages: [nepsorImg2, nepsorImg3],
-        details: "Nepsor required a brand identity that felt both technological and grounded. I developed a visual system that uses clean typography and a structured layout to represent stability and innovation. The branding process involved deep research into tech aesthetics, resulting in a palette and iconography that communicates professionalism and modern scalability across all digital and print assets."
+        details: [
+          "Problem: Nepsor needed a brand that felt credible and modern, while still being approachable enough for real people to connect with it.",
+          "Research → Insight: I learned that many tech brands either feel too corporate or too playful, and neither helps people trust the product. The strongest opportunity was a brand that communicated stability without losing personality.",
+          "Decision: I chose clean typography and a structured visual system because the identity needed to feel dependable and scalable. Based on that insight, I kept the palette restrained and the iconography simple so the brand could work across web, print, and presentations without becoming noisy.",
+          "Iteration: Before, the direction felt too generic to stand apart. After reviewing the system with stakeholders, I learned that clarity and consistency mattered more than visual complexity. I simplified the brand language and made the identity more intentional.",
+          "Final Solution: The final brand balances technical confidence with warmth, giving Nepsor a visual system that feels professional, grounded, and easy to recognize.",
+          "Outcome / Learning: The result was a more cohesive and trustworthy brand presence. I learned that strong brand decisions are really product decisions: they shape how people understand and remember the company."
+        ]
       },
       {
         title: 'TRINATH ORGANIC HONEY',
@@ -135,9 +148,12 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         image: trinathFrontImg,
         detailImage: trinathImg,
         details: [
-          "Trinath Organic Honey needed a brand identity that felt as pure and grounded as the product itself. The design journey began with a deep dive into the source — the hive. I drew inspiration from the raw textures of honeycomb, the golden drip of liquid honey, the gentle buzz of bees on wildflowers, and the lush green of nature untouched by industry.",
-          "These four pillars — drop, leaf, hive, and bee — became the building blocks of an iconic logo that holds layers of meaning within a single mark. The primary logo combines a honey drop forming the body of a bee, with a honeycomb hexagon at its core and a leaf crown at the top, representing purity, life, and origin all at once. The color palette is entirely derived from nature: warm amber, rich brown earth, golden yellow, cream white, and a grounding forest green.",
-          "For packaging, I designed a wraparound label system that brings the fields to the shelf — chiuri bloom across the label base to showcase its flavour, the logo sits prominently over a clean cream field, and all nutritional and contact information is organized with precision. The jar mockups were crafted in both clear roundedbottle and hexagonal jar formats to accommodate different product lines. Social media templates and branded merchandise like caps and t-shirts were also developed to extend the brand identity beyond just the product — turning Trinath into a lifestyle that people could trust and wear with pride."
+          "Problem: The product needed to communicate purity, trust, and origin in a way that felt honest and natural, not overly polished or artificial.",
+          "Research → Insight: I learned that the strongest visual story for honey is not about sweetness alone; it is about where it comes from, how it is made, and why it feels authentic. The brand had to feel rooted in nature while still being premium enough to stand on the shelf.",
+          "Decision: I chose a honeycomb, leaf, and bee system because each symbol carried a meaningful story about purity, life, and origin. Based on that, I built a clean cream-and-gold label system that makes the product feel trustworthy while keeping the information easy to scan.",
+          "Iteration: Before, the identity was still too broad and could have belonged to many food brands. After refining the concept, I learned that the product needed stronger symbolic cues to feel specific and memorable. I tightened the logo, clarified the label hierarchy, and aligned the packaging around the product story.",
+          "Final Solution: The final packaging brings together the product story, the natural ingredients, and the brand’s values in one clear system. It helps the consumer understand what makes this honey different in seconds.",
+          "Outcome / Learning: The project strengthened my belief that packaging is a form of product communication. I learned that the most effective design decisions are the ones that help the customer understand value quickly and intuitively."
         ]
       },
       {
@@ -145,15 +161,28 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         category: 'Poster',
         image: nepsorSocialMediaImg,
         additionalImages: [nepsorSocialMediaImg1, nepsorSocialMediaImg2, nepsorSocialMediaImg3, nepsorSocialMediaImg4, nepsorSocialMediaImg5, nepsorSocialMediaImg6],
-        details: "Nepsor linkdin profile post"
+        details: [
+          "Problem: The brand needed a consistent social presence that could communicate its value quickly and clearly across a crowded LinkedIn feed.",
+          "Research → Insight: I learned that people do not spend long reading posts in a fast-moving feed, so the visual identity needs to lead with clarity and relevance. The content had to feel professional, but not rigid.",
+          "Decision: I chose a structured layout with strong typography and clean visual hierarchy because the posts needed to communicate value instantly. Based on the need for recognition, I created a repeatable system that made each post feel like part of the same brand story.",
+          "Iteration: Before, the assets felt disconnected and inconsistent. After reviewing engagement and readability, I learned that simpler composition and tighter messaging made the content easier to absorb. I reduced visual noise and emphasized the core message in each post.",
+          "Final Solution: The final social media system gives Nepsor a recognizable voice across posts, making the brand easier to trust and easier to remember.",
+          "Outcome / Learning: The work showed me that social design is not just about aesthetics; it is about helping people understand the brand in a split second. I learned that consistency creates recognition, and recognition builds trust."
+        ]
       },
       {
         title: 'ASCOL HACKFEST 2024',
         category: 'Poster',
-        details: "Ascol Hackfest 2024 posters",
         image: ascolHackfestImg,
         additionalImages: [ascolHackfestImg1, ascolHackfestImg2, ascolHackfestImg3, ascolHackfestImg4, ascolHackfestImg5, ascolHackfestImg6, ascolHackfestImg7, ascolHackfestImg8],
-        details: "For the Ascol Hackfest 2024, I designed a series of posters that captured the spirit of innovation and collaboration that defines the event. The design process involved creating a visual language that was both futuristic and approachable, using bold typography, dynamic layouts, and a vibrant color palette to evoke excitement and creativity. Each poster was crafted to highlight different aspects of the hackfest, from keynote speakers to workshop sessions, while maintaining a cohesive aesthetic across all materials. The result was a set of eye-catching posters that not only promoted the event but also embodied the energy and passion of the tech community coming together to innovate."
+        details: [
+          "Problem: The event needed posters that could quickly communicate energy, relevance, and participation without losing clarity across multiple touchpoints.",
+          "Research → Insight: I learned that hackfest audiences respond to strong momentum and a sense of community. The designs needed to feel exciting, but still organized enough to carry event information clearly.",
+          "Decision: I chose bold typography, layered layouts, and a vibrant color system because the posters needed to feel electric while staying readable. Based on the event’s audience, I made sure each poster highlighted the main value proposition without becoming visually noisy.",
+          "Iteration: Before, the concept risked feeling too generic or too crowded. After refining the hierarchy, I learned that the strongest posters were the ones that let the event message breathe. I simplified the composition and clarified the visual rhythm.",
+          "Final Solution: The final poster set creates a consistent event identity that feels energetic, modern, and easy to understand at a glance.",
+          "Outcome / Learning: The result was a compelling promotional system that matched the event’s spirit. I learned that excitement in design is strongest when it is paired with clear information and disciplined hierarchy."
+        ]
       },
        {
         title: 'ILLUSTRATIONS',
@@ -161,9 +190,7 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         category: 'Illustration',
         image: illustrationImg6,
         additionalImages: [illustrationImg1, illustrationImg2, illustrationImg3, illustrationImg4, illustrationImg5, illustrationImg7],
-        details: [
-          "This collection of illustrations represents a personal exploration into the world of digital art and storytelling. Each piece was created with the intention of evoking emotion and sparking imagination, using a blend of vibrant colors, dynamic compositions, and intricate details.",
-          "The themes range from whimsical fantasy to introspective portraits, showcasing a diverse range of styles and techniques. This body of work is a testament to my passion for visual expression and my commitment to pushing the boundaries of creativity in every stroke."]
+        details: "A collection of illustrations built around emotion, atmosphere, and storytelling. Each piece explores a different mood and visual language, using color, texture, and composition to create a feeling before words ever need to explain it. The goal was to make the work expressive, personal, and flexible enough to sit across editorial, branding, and concept-based storytelling."
       },
     ],
     coder: [
@@ -180,16 +207,43 @@ const Projects = ({ onViewDetails, onLoadingStart }) => {
         category: 'Code (Core PHP, SQLite, and Tailwind CSS)',
         image: dealscoutFrontImg,
         additionalImages: [dealscoutImg2, dealscoutImg3],
-        details: ["DealScout is a web-based price comparison platform developed for my B.Sc. CSIT final year project. The system allows users to search products, compare prices from nearby stores, view store locations on an interactive map, and find the best deal by considering both product price and route cost.",
-        "Built with Core PHP, SQLite, and Tailwind CSS, the platform features role-based access for customers, store owners, and administrators, along with comprehensive security measures. The project successfully achieved all eight objectives and demonstrates practical application of software engineering in solving local retail price transparency challenges."]
+        details: [
+          "Problem: Local shoppers often struggled to compare prices across nearby stores because the information was fragmented and not easy to trust. The challenge was to make price comparisons practical, fast, and useful for real-life buying decisions.",
+          "Research → Insight: I learned that people do not just compare product prices — they also consider distance, route cost, and convenience. A better deal is not always the cheapest product if the extra travel makes it less worthwhile.",
+          "Decision: I chose a map-first, price-aware interface built around search, comparison, and store context because it directly matched the decision-making process users needed. I structured the system to highlight both product price and route cost so the recommendation felt realistic, not just theoretical.",
+          "Iteration: Before, the concept was more product-focused than user-focused. After refining the flow, I learned that users needed clearer comparisons and a more intuitive layout to trust the output. I cleaned up the information hierarchy and made the decision factors easier to understand at a glance.",
+          "Final Solution: The final platform lets users search products, compare nearby store prices, view locations on an interactive map, and choose the most practical deal based on both cost and travel effort.",
+          "Outcome / Learning: The project gave me a strong understanding of how software can solve real local problems. I learned that useful product design is not only about features — it is about making important decisions clearer, faster, and more confident for the user."
+        ]
       },
     ],
   };
 
+const Projects = ({ onViewDetails, onLoadingStart }) => {
+  const [activeTab, setActiveTab] = useState('designer');
+  const [activeCategory, setActiveCategory] = useState('UI/UX');
 
-  const filteredProjects = activeTab === 'designer'
-    ? projects.designer.filter(p => p.category === activeCategory)
-    : projects[activeTab];
+  const handleTabChange = useCallback((tab) => {
+    if (onLoadingStart) onLoadingStart();
+    setActiveTab(tab);
+    if (tab === 'designer') {
+      setActiveCategory('UI/UX');
+    }
+  }, [onLoadingStart]);
+
+  const handleCategoryChange = useCallback((cat) => {
+    if (onLoadingStart) onLoadingStart();
+    setActiveCategory(cat);
+  }, [onLoadingStart]);
+
+  const designerCategories = ['UI/UX', 'Branding', 'Packaging', 'Poster','Illustration'];
+
+  const filteredProjects = useMemo(
+    () => activeTab === 'designer'
+      ? projects.designer.filter(p => p.category === activeCategory)
+      : projects[activeTab],
+    [activeTab, activeCategory]
+  );
 
   return (
     <section id="works" className="min-h-screen py-24 px-8 md:px-20 backdrop-blur-md">
