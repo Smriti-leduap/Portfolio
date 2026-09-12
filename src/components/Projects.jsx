@@ -208,12 +208,12 @@ const projects = {
         image: dealscoutFrontImg,
         additionalImages: [dealscoutImg2, dealscoutImg3],
         details: [
-          "Problem: Local shoppers often struggled to compare prices across nearby stores because the information was fragmented and not easy to trust. The challenge was to make price comparisons practical, fast, and useful for real-life buying decisions.",
-          "Research → Insight: I learned that people do not just compare product prices — they also consider distance, route cost, and convenience. A better deal is not always the cheapest product if the extra travel makes it less worthwhile.",
-          "Decision: I chose a map-first, price-aware interface built around search, comparison, and store context because it directly matched the decision-making process users needed. I structured the system to highlight both product price and route cost so the recommendation felt realistic, not just theoretical.",
-          "Iteration: Before, the concept was more product-focused than user-focused. After refining the flow, I learned that users needed clearer comparisons and a more intuitive layout to trust the output. I cleaned up the information hierarchy and made the decision factors easier to understand at a glance.",
+          "Project Context: This was a college project we built during my 7th semester of CSIT together with my friends. Local shoppers often struggled to compare prices across nearby stores because the information was fragmented and not easy to trust. The challenge was to make price comparisons practical, fast, and useful for real-life buying decisions.",
+          "Research → Insight: We learned that people do not just compare product prices — they also consider distance, route cost, and convenience. A better deal is not always the cheapest product if the extra travel makes it less worthwhile.",
+          "Decision: We chose a map-first, price-aware interface built around search, comparison, and store context because it directly matched the decision-making process users needed. We structured the system to highlight both product price and route cost so the recommendation felt realistic, not just theoretical.",
+          "Iteration: Before, the concept was more product-focused than user-focused. After refining the flow, we learned that users needed clearer comparisons and a more intuitive layout to trust the output. We cleaned up the information hierarchy and made the decision factors easier to understand at a glance.",
           "Final Solution: The final platform lets users search products, compare nearby store prices, view locations on an interactive map, and choose the most practical deal based on both cost and travel effort.",
-          "Outcome / Learning: The project gave me a strong understanding of how software can solve real local problems. I learned that useful product design is not only about features — it is about making important decisions clearer, faster, and more confident for the user."
+          "Outcome / Learning: This collaborative CSIT 7th-semester project gave us a strong understanding of how software can solve real local problems. We learned that useful product design is not only about features — it is about making important decisions clearer, faster, and more confident for the user."
         ]
       },
     ],
