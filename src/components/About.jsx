@@ -1,9 +1,9 @@
 import React from 'react';
 
-const About = () => {
+const About = ({ onKnowMeBetter }) => {
   return (
     <section id="about-me" className="min-h-screen py-24 px-8 md:px-20 flex flex-col justify-center backdrop-blur-sm">
-      <div className="max-w-4xl">
+      <div className="mx-auto w-full max-w-6xl">
         <h3 className="text-sm font-bold tracking-[0.2em] mb-4 dark:text-white/60 text-indigo-950/60 uppercase">
           About Me
         </h3>
@@ -12,13 +12,22 @@ const About = () => {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12">
-          <p className="text-lg leading-relaxed dark:text-white text-indigo-950/80 font-light">
-            I bridge the gap between aesthetics and function. As a designer, I craft visual identities and
-            user experiences. As a coder, I bring those visions to life with clean, efficient code.
-            I specialize in branding, social media strategy, and frontend web development.
-          </p>
+          <div>
+            <p className="text-lg leading-relaxed dark:text-white text-indigo-950/80 font-light mb-8">
+              I bridge the gap between aesthetics and function. As a designer, I craft visual identities and
+              user experiences. As a coder, I bring those visions to life with clean, efficient code.
+              I specialize in branding, social media strategy, and frontend web development.
+            </p>
 
-          <div className="space-y-10">
+            <button
+              type="button"
+              onClick={onKnowMeBetter}
+              className="button-hover inline-flex w-40 items-center justify-center rounded-full bg-white px-6 py-3 text-[10px] font-black uppercase tracking-widest text-black hover:bg-yellow-400"
+            >
+              Know Me Better
+            </button>
+          </div>
+
             <div>
               <h4 className="dark:text-white text-indigo-950 font-bold mb-6 tracking-widest text-sm uppercase">Design Skills</h4>
               <div className="flex flex-wrap gap-4">
@@ -42,7 +51,6 @@ const About = () => {
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 };

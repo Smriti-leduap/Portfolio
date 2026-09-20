@@ -1,11 +1,12 @@
 import React from 'react';
 
-const Navbar = ({ theme, toggleTheme, activeSection }) => {
+const Navbar = ({ theme, toggleTheme, activeSection, onShowBeyondPortfolio, onNavigateSection }) => {
   const links = [
     { name: 'Home', id: 'home' },
     { name: 'Works', id: 'works' },
     { name: 'Contact', id: 'contact' },
-    { name: 'About Me', id: 'about-me' }
+    { name: 'About Me', id: 'about-me' },
+    { name: 'Off the Clock', id: 'off-the-clock', action: onShowBeyondPortfolio }
   ];
 
   return (
@@ -14,16 +15,30 @@ const Navbar = ({ theme, toggleTheme, activeSection }) => {
         <ul className="flex space-x-12">
           {links.map((link) => (
             <li key={link.id}>
-              <a 
-                href={`#${link.id}`}
-                className={`text-sm font-bold tracking-widest transition-all duration-300 pb-1 border-b-2 ${
-                  activeSection === link.id 
-                    ? 'border-black dark:border-white text-black dark:text-white' 
-                    : 'border-transparent dark:text-white/50 text-black/50 hover:text-black dark:hover:text-white hover:border-black dark:hover:border-white'
-                }`}
-              >
-                {link.name}
-              </a>
+              {link.action || onNavigateSection ? (
+                <button
+                  type="button"
+                  onClick={link.action || (() => onNavigateSection(link.id))}
+                  className={`text-sm font-bold tracking-widest transition-all duration-300 pb-1 border-b-2 ${
+                    activeSection === link.id
+                      ? 'border-black dark:border-white text-black dark:text-white'
+                      : 'border-transparent dark:text-white/50 text-black/50 hover:text-black dark:hover:text-white hover:border-black dark:hover:border-white'
+                  }`}
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <a 
+                  href={`#${link.id}`}
+                  className={`text-sm font-bold tracking-widest transition-all duration-300 pb-1 border-b-2 ${
+                    activeSection === link.id 
+                      ? 'border-black dark:border-white text-black dark:text-white' 
+                      : 'border-transparent dark:text-white/50 text-black/50 hover:text-black dark:hover:text-white hover:border-black dark:hover:border-white'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -32,7 +47,7 @@ const Navbar = ({ theme, toggleTheme, activeSection }) => {
       <div className="flex-0 flex justify-end">
         <button 
           onClick={toggleTheme}
-          className="p-3 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md"
+           className="button-hover p-3 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md"
           aria-label="Toggle theme"
         >
           {theme === 'dark' ? (

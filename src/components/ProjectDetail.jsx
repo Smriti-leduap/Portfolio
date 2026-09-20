@@ -19,7 +19,8 @@ const ProjectDetail = ({ project, onBack }) => {
         { title: 'Research → Insight', content: project.details[1] },
         { title: 'Decision', content: project.details[2] },
         { title: 'Iteration', content: project.details[3] },
-        { title: 'Final Solution + Outcome / Learning', content: `${project.details[4]} ${project.details[5]}` },
+        { title: 'Final Solution', content: project.details[4] },
+        { title: 'Outcome / Learning', content: project.details[5] },
       ]
     : [{ title: 'Project Story', content: project.details }];
 
@@ -28,7 +29,7 @@ const ProjectDetail = ({ project, onBack }) => {
       <div className="max-w-6xl mx-auto px-8 md:px-20 py-24">
         <button
           onClick={handleBack}
-          className="flex items-center gap-4 text-xs font-black tracking-widest uppercase mb-16 group dark:text-white text-indigo-950"
+          className="button-hover flex items-center gap-4 text-xs font-black tracking-widest uppercase mb-16 group dark:text-white text-indigo-950"
         >
           <div className="w-10 h-[1px] bg-indigo-950/20 dark:bg-white/20 group-hover:w-16 transition-all"></div>
           Back to Works
@@ -90,7 +91,7 @@ const ProjectDetail = ({ project, onBack }) => {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-12 py-5 rounded-full bg-indigo-950 dark:bg-white text-white dark:text-black text-xs font-black tracking-widest uppercase hover:scale-105 transition-transform text-center inline-block"
+                  className="button-hover px-12 py-5 rounded-full bg-indigo-950 dark:bg-white text-white dark:text-black text-xs font-black tracking-widest uppercase text-center inline-block"
                 >
                   Launch Live Site
                 </a>

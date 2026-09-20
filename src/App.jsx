@@ -6,6 +6,7 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetail from './components/ProjectDetail';
+import BeyondPortfolio from './components/BeyondPortfolio';
 import Loader from './components/Loader';
 import giftAvatar from './assets/gift avatar.png';
 
@@ -16,6 +17,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [showBeyondPortfolio, setShowBeyondPortfolio] = useState(() => localStorage.getItem('portfolio-view') === 'off');
   const [isLoading, setIsLoading] = useState(true);
   const [isEasterEggVisible, setIsEasterEggVisible] = useState(false);
   const [hasClaimedReward, setHasClaimedReward] = useState(false);
@@ -72,6 +74,17 @@ const App = () => {
   }, [isEasterEggVisible, hasClaimedReward, prefersReducedMotion]);
 
   useEffect(() => {
+    const currentView = selectedProject ? 'project' : showBeyondPortfolio ? 'off' : 'home';
+    localStorage.setItem('portfolio-view', currentView);
+  }, [selectedProject, showBeyondPortfolio]);
+
+  useEffect(() => {
+    if (showBeyondPortfolio) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [showBeyondPortfolio]);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (selectedProject) return;
 
@@ -90,10 +103,17 @@ const App = () => {
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
       setScrollProgress(scrolled);
-
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 12;
-      setIsEasterEggVisible(!selectedProject && isAtBottom);
     };
+
+    const contactSection = document.getElementById('contact');
+    const contactObserver = contactSection
+      ? new IntersectionObserver(
+          ([entry]) => setIsEasterEggVisible(!selectedProject && entry.isIntersecting),
+          { threshold: 0.2 }
+        )
+      : null;
+
+    contactObserver?.observe(contactSection);
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
@@ -102,6 +122,7 @@ const App = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
+      contactObserver?.disconnect();
     };
   }, [selectedProject]);
 
@@ -114,6 +135,39 @@ const App = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 2500);
+  };
+
+  const handleOpenOffTheClock = () => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    setShowBeyondPortfolio(true);
+    setSelectedProject(null);
+    localStorage.setItem('portfolio-view', 'off');
+  };
+
+  const handleBackFromOffTheClock = () => {
+    setShowBeyondPortfolio(false);
+    setSelectedProject(null);
+    localStorage.setItem('portfolio-view', 'home');
+
+    setTimeout(() => {
+      const homeSection = document.getElementById('home');
+      if (homeSection) {
+        homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 50);
+  };
+
+  const handleNavigateFromOffTheClock = (sectionId) => {
+    handleBackFromOffTheClock();
+
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const handleClaimReward = () => {
@@ -135,29 +189,34 @@ const App = () => {
           className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
             theme === 'dark' ? 'opacity-100' : 'opacity-0'
           }`}
-          style={{ backgroundImage: "url('/bg-dark.png')" }}
+          style={{ backgroundImage: "url('/bg-dark.webp')" }}
         />
 
         <div
           className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
             theme === 'light' ? 'opacity-100' : 'opacity-0'
           }`}
-          style={{ backgroundImage: "url('/bg-light.png')" }}
+          style={{ backgroundImage: "url('/bg-light.webp')" }}
         />
 
         <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-black/20' : 'bg-white/10'}`} />
       </div>
 
       <div className={`relative z-10 flex flex-col ${selectedProject ? 'h-screen overflow-hidden' : ''}`}>
-        {!selectedProject && (
+        {!selectedProject && !showBeyondPortfolio && (
           <>
-            <Navbar theme={theme} toggleTheme={toggleTheme} activeSection={activeSection} />
+            <Navbar
+              theme={theme}
+              toggleTheme={toggleTheme}
+              activeSection={activeSection}
+              onShowBeyondPortfolio={() => setShowBeyondPortfolio(true)}
+            />
 
-            <section id="home" className="h-screen w-full px-10 md:px-32">
+            <section id="home" className="h-screen w-full px-8 md:px-20">
               <Hero onLoadingStart={handleLoadingStart} />
             </section>
 
-            <About />
+            <About onKnowMeBetter={handleOpenOffTheClock} />
             <Projects onViewDetails={setSelectedProject} onLoadingStart={handleLoadingStart} />
             <Contact />
             <Footer activeSection={activeSection} scrollProgress={scrollProgress} />
@@ -165,10 +224,28 @@ const App = () => {
         )}
 
         {selectedProject && (
-          <ProjectDetail
-            project={selectedProject}
-            onBack={() => setSelectedProject(null)}
-          />
+          <>
+            <ProjectDetail
+              project={selectedProject}
+              onBack={() => setSelectedProject(null)}
+            />
+            <Footer activeSection="works" scrollProgress={scrollProgress} />
+          </>
+        )}
+
+        {showBeyondPortfolio && (
+          <>
+            <Navbar
+              theme={theme}
+              toggleTheme={toggleTheme}
+              activeSection="off-the-clock"
+              onShowBeyondPortfolio={handleOpenOffTheClock}
+              onNavigateSection={handleNavigateFromOffTheClock}
+            />
+            <BeyondPortfolio onBack={handleBackFromOffTheClock} theme={theme} />
+            <Contact />
+            <Footer activeSection="about-me" scrollProgress={scrollProgress} />
+          </>
         )}
       </div>
 

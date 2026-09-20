@@ -3,50 +3,29 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const imageExtensions = new Set(['.png', '.jpg', '.jpeg']);
 
-async function convertToWebP(inputPath, outputPath) {
-  try {
-    const stats = fs.statSync(inputPath);
-    const originalSize = stats.size / (1024 * 1024);
-    
-    console.log(`Converting ${path.basename(inputPath)} to WebP (${originalSize.toFixed(2)} MB)...`);
-    
+async function convertDirectory(directory) {
+  const files = fs.readdirSync(directory, { withFileTypes: true });
+
+  for (const file of files) {
+    if (!file.isFile() || !imageExtensions.has(path.extname(file.name).toLowerCase())) continue;
+
+    const inputPath = path.join(directory, file.name);
+    const outputPath = path.join(directory, `${path.basename(file.name, path.extname(file.name))}.webp`);
+    const originalSize = fs.statSync(inputPath).size;
+
     await sharp(inputPath)
-      .webp({ quality: 80 })
+      .webp({ quality: 84, effort: 5 })
       .toFile(outputPath);
-    
-    const newStats = fs.statSync(outputPath);
-    const newSize = newStats.size / (1024 * 1024);
-    const reduction = ((1 - (newSize / originalSize)) * 100).toFixed(1);
-    
-    console.log(`✓ Converted to ${newSize.toFixed(2)} MB (${reduction}% reduction)`);
-  } catch (error) {
-    console.error(`✗ Error converting ${inputPath}:`, error.message);
+
+    const compressedSize = fs.statSync(outputPath).size;
+    const reduction = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+    console.log(`${file.name}: ${(originalSize / 1024 / 1024).toFixed(2)} MB -> ${(compressedSize / 1024 / 1024).toFixed(2)} MB (${reduction}% smaller)`);
   }
 }
 
-async function main() {
-  const assetsDir = path.join(__dirname, 'src', 'assets');
-
-  const trinathPath = path.join(assetsDir, 'trinath.png');
-  const trinathWebP = path.join(assetsDir, 'trinath.webp');
-  
-  await convertToWebP(trinathPath, trinathWebP);
-  
-
-  fs.unlinkSync(trinathPath);
-  
-  const trinathfrontPath = path.join(assetsDir, 'trinathfront.png');
-  const trinathfrontWebP = path.join(assetsDir, 'trinathfront.webp');
-  
-  await convertToWebP(trinathfrontPath, trinathfrontWebP);
-  
-
-  fs.unlinkSync(trinathfrontPath);
-  
-  console.log('\n✓ All images converted to WebP format!');
-}
-
-main();
+await convertDirectory(path.join(__dirname, 'src', 'assets'));
+await convertDirectory(path.join(__dirname, 'public'));
+await convertDirectory(path.join(__dirname, 'public', 'assets'));

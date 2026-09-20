@@ -18,7 +18,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-display antialiased transition-colors duration-300 overflow-x-hidden;
   }
@@ -28,12 +28,34 @@
   }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
+  50% { transform: translateY(-14px) rotate(var(--rotation, 0deg)); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(12px, -10px, 0); }
+}
+
 .glass {
   @apply bg-white/10 backdrop-blur-md border border-white/20;
 }
 
 .text-glow {
   text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+.soft-card {
+  box-shadow: 0 25px 80px rgba(76, 29, 149, 0.12);
+}
+
+.art-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+.art-drift {
+  animation: drift 8s ease-in-out infinite;
 }
 
 .designer-side {
@@ -46,4 +68,221 @@
 
 .split-handle {
   cursor: ew-resize;
+}
+
+.button-hover {
+  transition: transform 220ms ease, opacity 220ms ease, background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+.button-hover:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.button-hover:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.off-clock-page { color: inherit; background: transparent; }
+.off-clock-page { padding-top: 10rem; }
+
+.viewer-heading { text-align: center; margin-bottom: 2rem; }
+.viewer-heading p { margin: 0 0 .45rem; font: 700 9px/1 var(--font-mono); letter-spacing: .28em; opacity: .65; }
+.viewer-heading h1 { margin: 0; font: inherit; font-size: clamp(1.8rem, 3.5vw, 3.2rem); line-height: .95; font-weight: 900; letter-spacing: -.04em; }
+.viewer-heading h1 span { opacity: .7; font-style: normal; font-weight: inherit; }
+.viewer-heading small { display: block; margin-top: .7rem; font: 700 9px/1 var(--font-mono); letter-spacing: .12em; opacity: .55; }
+
+.journal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  align-items: start;
+  gap: 2.5rem;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.journal-stage {
+  min-width: 0;
+  perspective: 1800px;
+}
+
+.journal-book {
+  position: relative;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  aspect-ratio: 1.4 / 1;
+  transform-style: preserve-3d;
+}
+
+.journal-stack-card { position: absolute; inset: 7% 5%; width: 90%; height: 86%; border-radius: 15px; object-fit: contain; background-color: rgb(0 0 0 / .04); box-shadow: 0 20px 30px rgba(18, 29, 55, .22); transform-origin: center bottom; }
+.stack-0 { transform: translateX(-15%) rotate(-12deg); opacity: .95; }
+.stack-1 { transform: translateX(-8%) rotate(-6deg); opacity: .88; }
+.stack-2 { transform: translateX(8%) rotate(6deg); opacity: .86; }
+.stack-3 { transform: translateX(15%) rotate(12deg); opacity: .82; }
+
+.journal-page {
+  position: absolute;
+  inset: 0 3% 0 0;
+  border-radius: 15px;
+}
+
+.journal-page {
+  overflow: hidden;
+  padding: 0;
+  background: rgb(255 255 255 / .1);
+  color: inherit;
+  box-shadow: 0 25px 40px rgba(18, 29, 55, .16), inset -14px 0 25px rgba(174, 117, 74, .08);
+  transform-origin: left center;
+  animation: pageSettle 700ms cubic-bezier(.2,.75,.25,1) both;
+}
+
+.journal-page-image { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+
+.journal-under-page {
+  position: absolute;
+  inset: 0 3% 0 0;
+  width: 97%;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: contain;
+  background-color: rgb(0 0 0 / .04);
+  box-shadow: 0 25px 40px rgba(18, 29, 55, .18);
+}
+
+.journal-stack-card {
+  inset: 8% 5% 5%;
+  width: 90%;
+  height: 86%;
+  opacity: .65;
+}
+
+.journal-stack-card.stack-left { transform: translateX(-14%) rotate(-8deg); }
+.journal-stack-card.stack-right { transform: translateX(14%) rotate(8deg); }
+
+.journal-sheet {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 3%;
+  z-index: 2;
+  border-radius: 15px;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 25px 40px rgba(18, 29, 55, .18);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.journal-ready-page {
+  position: absolute;
+  inset: 0 3% 0 0;
+  z-index: 1;
+  width: 97%;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 25px 40px rgba(18, 29, 55, .18);
+}
+
+.journal-sheet.direction-next { transform-origin: 50% center; }
+.journal-sheet.direction-prev { transform-origin: 50% center; }
+.journal-sheet.is-flipping { animation: bookPageFlipNext 1550ms cubic-bezier(.22,.61,.36,1) both; }
+.journal-sheet.direction-prev.is-flipping { animation-name: bookPageFlipPrev; }
+.journal-sheet .journal-page-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+  background: transparent;
+  box-shadow: none;
+}
+
+.journal-spine {
+  position: absolute;
+  top: 2%;
+  bottom: 2%;
+  left: 0;
+  width: 4px;
+  background: linear-gradient(#c18f6b, #815141, #c18f6b);
+  box-shadow: 4px 0 8px rgba(71, 42, 29, .16);
+}
+
+.journal-page-top { display: flex; justify-content: space-between; color: #907b6b; font: 700 9px/1 var(--font-mono); letter-spacing: .16em; }
+.journal-page-copy { position: relative; z-index: 2; max-width: 64%; }
+.journal-kicker { margin: 1.5rem 0 .65rem; font-size: 10px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
+.journal-page-copy h2 { margin: 0 0 1rem; font: inherit; font-size: clamp(1.8rem, 4.5vw, 4rem); line-height: .95; font-weight: 900; letter-spacing: -.04em; }
+.journal-page-copy > p:last-child { max-width: 330px; font: inherit; font-size: clamp(.8rem, 1.3vw, 1rem); line-height: 1.7; opacity: .72; }
+.journal-page-mark { position: absolute; right: 9%; bottom: 9%; opacity: .7; font-size: 2rem; }
+
+.journal-photo-collage { position: absolute; inset: 15% 8% 17% 51%; overflow: hidden; border-radius: 8px; background: rgb(255 255 255 / .1); transform: rotate(3deg); box-shadow: 5px 7px 0 rgba(91, 64, 51, .12); }
+.collage-shape { position: absolute; border-radius: 48% 52% 45% 55%; }
+.collage-one { width: 68%; height: 65%; left: -8%; top: 15%; background: var(--journal-accent); transform: rotate(-17deg); }
+.collage-two { width: 62%; height: 70%; right: -12%; top: -12%; background: #f2b071; transform: rotate(23deg); }
+.collage-three { width: 80%; height: 35%; left: 13%; bottom: -7%; background: #78918a; transform: rotate(-11deg); }
+.journal-photo-collage span { position: absolute; right: 9%; bottom: 9%; color: inherit; font: inherit; font-size: 12px; font-style: italic; font-weight: 700; transform: rotate(-8deg); }
+.journal-art { position: relative; width: 100%; height: 100%; min-height: 120px; }
+.art-sun span { position: absolute; inset: 13% 15% 20% 9%; border: 1px solid var(--journal-accent); border-radius: 50%; }
+.art-sun i { position: absolute; top: 24%; right: 16%; width: 34%; aspect-ratio: 1; border-radius: 50%; background: var(--journal-accent); }
+.art-sun b { position: absolute; bottom: 14%; left: 10%; width: 85%; border-top: 1px solid var(--journal-accent); transform: rotate(-10deg); }
+.art-painting { border: 10px solid #bc765c; background: #e8c7a2; transform: rotate(5deg); box-shadow: 9px 10px 0 #d49c75; }
+.art-painting span { position: absolute; border-radius: 50%; background: var(--journal-accent); filter: saturate(.8); }
+.art-painting span:nth-child(1) { width: 38%; height: 50%; left: 12%; top: 22%; background: #6e8775; }
+.art-painting span:nth-child(2) { width: 38%; height: 36%; right: 8%; top: 9%; background: #df9d60; }
+.art-painting span:nth-child(3) { width: 44%; height: 28%; right: 16%; bottom: 12%; background: #8c6580; }
+.art-painting i { position: absolute; width: 70%; height: 15%; left: 15%; bottom: 28%; background: #d77c68; transform: rotate(-25deg); }
+.art-leaves span { position: absolute; width: 31%; height: 55%; border-radius: 100% 0; border: 2px solid var(--journal-accent); transform: rotate(var(--leaf-rotation, 30deg)); }
+.art-leaves span:nth-child(1) { left: 13%; top: 12%; --leaf-rotation: 15deg; }
+.art-leaves span:nth-child(2) { left: 42%; top: 2%; --leaf-rotation: 55deg; }
+.art-leaves span:nth-child(3) { left: 30%; top: 39%; --leaf-rotation: -35deg; }
+.art-leaves span:nth-child(4) { left: 61%; top: 30%; --leaf-rotation: 55deg; }
+.art-desk span { position: absolute; border: 1px solid var(--journal-accent); }
+.art-desk span:first-child { inset: 15% 10% 30%; background: #e4d1ae; transform: rotate(-6deg); }
+.art-desk span:nth-child(2) { left: 17%; right: 4%; bottom: 17%; height: 18%; background: var(--journal-accent); transform: rotate(4deg); }
+.art-desk i { position: absolute; left: 42%; top: 24%; width: 28%; height: 44%; border: 2px solid #7e8faa; border-radius: 50% 50% 5% 5%; }
+
+.journal-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; width: min(100%, 520px); margin: 0 auto; padding: 1.15rem .3rem .2rem; }
+.journal-controls button { display: grid; width: 42px; height: 42px; place-items: center; padding: 0 0 3px; border: 1px solid currentColor; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; font: inherit; font-size: 1.8rem; font-weight: 900; line-height: 1; opacity: .82; transition: opacity .25s, transform .25s, background-color .25s; }
+.journal-controls button:hover:not(:disabled) { opacity: 1; transform: translateY(-2px); background: rgb(255 255 255 / .1); }
+.journal-controls button:disabled { cursor: not-allowed; opacity: .25; }
+.journal-page-count { color: #9a8573; font: 700 10px/1 var(--font-mono); letter-spacing: .2em; }
+
+.journal-event { position: relative; min-height: 360px; padding: 0 0 2.5rem 3rem; border-left: 1px solid rgba(245, 235, 216, .35); animation: eventReveal 600ms 100ms both; }
+.journal-event-label { position: absolute; top: 0; left: 3rem; font: 700 9px/1 var(--font-mono); letter-spacing: .18em; text-transform: uppercase; opacity: .5; }
+.journal-event-number { position: absolute; top: -.25rem; right: 0; font: inherit; font-size: 3rem; font-weight: 900; line-height: .8; opacity: .12; }
+.journal-event-date { margin: 4.5rem 0 1rem; font: 700 10px/1 var(--font-mono); letter-spacing: .15em; text-transform: uppercase; }
+.journal-event h2 { max-width: 360px; margin: 0 0 1.2rem; font: inherit; font-size: 2rem; line-height: 1; font-weight: 900; letter-spacing: -.02em; }
+.journal-event-copy { max-width: 390px; opacity: .78; font: inherit; font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.75; }
+.journal-event-signature { display: block; margin-top: 2rem; opacity: .65; font: inherit; font-style: italic; font-size: 14px; }
+@keyframes bookPageFlipNext {
+  0% { clip-path: inset(0 0 0 0); transform: perspective(1600px) rotateY(0deg); }
+  24% { clip-path: inset(0 0 0 20%); transform: perspective(1600px) rotateY(-28deg) translateZ(2px); }
+  52% { clip-path: inset(0 0 0 50%); transform: perspective(1600px) rotateY(-92deg) translateZ(6px); }
+  78% { clip-path: inset(0 0 0 50%); transform: perspective(1600px) rotateY(-152deg) translateZ(4px); }
+  100% { clip-path: inset(0 0 0 50%); transform: perspective(1600px) rotateY(-180deg); }
+}
+@keyframes bookPageFlipPrev {
+  0% { clip-path: inset(0 0 0 0); transform: perspective(1600px) rotateY(0deg); }
+  24% { clip-path: inset(0 20% 0 0); transform: perspective(1600px) rotateY(28deg) translateZ(2px); }
+  52% { clip-path: inset(0 50% 0 0); transform: perspective(1600px) rotateY(92deg) translateZ(6px); }
+  78% { clip-path: inset(0 50% 0 0); transform: perspective(1600px) rotateY(152deg) translateZ(4px); }
+  100% { clip-path: inset(0 50% 0 0); transform: perspective(1600px) rotateY(180deg); }
+}
+@keyframes pageSettle { from { transform: rotateY(-10deg); } to { transform: rotateY(0); } }
+@keyframes journalReveal { from { opacity: 0; transform: translateY(20px) rotateX(4deg); } to { opacity: 1; transform: translateY(0) rotateX(0); } }
+@keyframes eventReveal { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+
+@media (max-width: 800px) {
+  .journal-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .journal-event { min-height: 0; padding: 2rem 0 0; border-left: 0; border-top: 1px solid rgba(127, 106, 90, .35); }
+  .journal-event-label { top: 2rem; left: 0; }
+  .journal-event-number { top: 1.7rem; }
+  .journal-event h2 { margin-top: 2.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journal-book, .journal-page, .journal-event, .journal-sheet.is-flipping { animation: none; }
 }

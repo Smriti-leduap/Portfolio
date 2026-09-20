@@ -1,45 +1,45 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import ezImg from '../assets/ez-crossword.png';
-import ezImg2 from '../assets/ez-2.png';
-import ezImg3 from '../assets/ez-3.png';
-import mountainFullImg from '../assets/mountain-full.png';
-import mountainImg from '../assets/nepal-mountain.png';
-import mountainImg2 from '../assets/mountain-2.png';
-import mountainImg3 from '../assets/mountain-3.png';
-import nepsorImg from '../assets/nepsor.png';
-import nepsorImg2 from '../assets/nepsor-2.png';
-import nepsorImg3 from '../assets/nepsor-3.png';
+import ezImg from '../assets/ez-crossword.webp';
+import ezImg2 from '../assets/ez-2.webp';
+import ezImg3 from '../assets/ez-3.webp';
+import mountainFullImg from '../assets/mountain-full.webp';
+import mountainImg from '../assets/nepal-mountain.webp';
+import mountainImg2 from '../assets/mountain-2.webp';
+import mountainImg3 from '../assets/mountain-3.webp';
+import nepsorImg from '../assets/nepsor.webp';
+import nepsorImg2 from '../assets/nepsor-2.webp';
+import nepsorImg3 from '../assets/nepsor-3.webp';
 import trinathImg from '../assets/trinath.webp';
 import trinathFrontImg from '../assets/trinathfront.webp';
-import verdantImg from '../assets/verdant.png';
-import verdantFrontImg from '../assets/verdant1.png';
-import dealscoutFrontImg from '../assets/dealscout.png';
-import dealscoutImg2 from '../assets/dealscout2.png';
-import dealscoutImg3 from '../assets/dealscout3.png';
+import verdantImg from '../assets/verdant.webp';
+import verdantFrontImg from '../assets/verdant1.webp';
+import dealscoutFrontImg from '../assets/dealscout.webp';
+import dealscoutImg2 from '../assets/dealscout2.webp';
+import dealscoutImg3 from '../assets/dealscout3.webp';
 
-import nepsorSocialMediaImg from '../assets/poster.png';
-import nepsorSocialMediaImg1 from '../assets/poster1.png';
-import nepsorSocialMediaImg2 from '../assets/poster2.png';
-import nepsorSocialMediaImg3 from '../assets/poster3.png';
-import nepsorSocialMediaImg4 from '../assets/poster4.png';
-import nepsorSocialMediaImg5 from '../assets/poster5.png';
-import nepsorSocialMediaImg6 from '../assets/poster6.png';
-import illustrationImg1 from '../assets/illustration1.png';
-import illustrationImg2 from '../assets/illustration2.png';
-import illustrationImg3 from '../assets/illustration3.png';
-import illustrationImg4 from '../assets/illustration4.png';
-import illustrationImg5 from '../assets/illustration5.png';
-import illustrationImg6 from '../assets/illustration6.png';
-import illustrationImg7 from '../assets/illustration7.png';
-import ascolHackfestImg from '../assets/ascol.jpg';
-import ascolHackfestImg1 from '../assets/ascol1.jpg';
-import ascolHackfestImg2 from '../assets/ascol2.jpg';
-import ascolHackfestImg3 from '../assets/ascol3.jpg';
-import ascolHackfestImg4 from '../assets/ascol4.jpg';
-import ascolHackfestImg5 from '../assets/ascol5.jpg';
-import ascolHackfestImg6 from '../assets/ascol6.jpg';
-import ascolHackfestImg7 from '../assets/ascol7.jpg';
-import ascolHackfestImg8 from '../assets/ascol8.jpg';
+import nepsorSocialMediaImg from '../assets/poster.webp';
+import nepsorSocialMediaImg1 from '../assets/poster1.webp';
+import nepsorSocialMediaImg2 from '../assets/poster2.webp';
+import nepsorSocialMediaImg3 from '../assets/poster3.webp';
+import nepsorSocialMediaImg4 from '../assets/poster4.webp';
+import nepsorSocialMediaImg5 from '../assets/poster5.webp';
+import nepsorSocialMediaImg6 from '../assets/poster6.webp';
+import illustrationImg1 from '../assets/illustration1.webp';
+import illustrationImg2 from '../assets/illustration2.webp';
+import illustrationImg3 from '../assets/illustration3.webp';
+import illustrationImg4 from '../assets/illustration4.webp';
+import illustrationImg5 from '../assets/illustration5.webp';
+import illustrationImg6 from '../assets/illustration6.webp';
+import illustrationImg7 from '../assets/illustration7.webp';
+import ascolHackfestImg from '../assets/ascol.webp';
+import ascolHackfestImg1 from '../assets/ascol1.webp';
+import ascolHackfestImg2 from '../assets/ascol2.webp';
+import ascolHackfestImg3 from '../assets/ascol3.webp';
+import ascolHackfestImg4 from '../assets/ascol4.webp';
+import ascolHackfestImg5 from '../assets/ascol5.webp';
+import ascolHackfestImg6 from '../assets/ascol6.webp';
+import ascolHackfestImg7 from '../assets/ascol7.webp';
+import ascolHackfestImg8 from '../assets/ascol8.webp';
 
 
 
@@ -68,7 +68,7 @@ const ProjectCard = React.memo(({ title, titleLines, category, url, image, detai
         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4">
           <button
             onClick={() => onViewDetails({ title, titleLines, category, image, detailImage, details, url, additionalImages })}
-            className="w-40 py-3 rounded-full bg-white text-black text-[10px] font-black tracking-widest uppercase hover:bg-yellow-400 transition-colors"
+            className="button-hover w-40 py-3 rounded-full bg-white text-black text-[10px] font-black tracking-widest uppercase hover:bg-yellow-400"
           >
             View Details
           </button>
@@ -77,7 +77,7 @@ const ProjectCard = React.memo(({ title, titleLines, category, url, image, detai
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-40 py-3 rounded-full border border-white/40 text-white text-[10px] font-black tracking-widest uppercase hover:bg-white/10 transition-colors flex items-center justify-center"
+              className="button-hover w-40 py-3 rounded-full border border-white/40 text-white text-[10px] font-black tracking-widest uppercase hover:bg-white/10 flex items-center justify-center"
             >
               View Project
             </a>

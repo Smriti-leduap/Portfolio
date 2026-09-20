@@ -64,7 +64,7 @@ const Hero = ({ onLoadingStart }) => {
       
 
      
-      <div className="relative z-10 animate-[fadeIn_1s_ease-out] px-6 md:px-10">
+      <div className="relative z-10 mx-auto w-full max-w-6xl animate-[fadeIn_1s_ease-out]">
         <p className="text-sm md:text-base font-black tracking-[0.3em] dark:text-white/90 text-indigo-950 uppercase mb-1">
           HI, I'M
         </p>
